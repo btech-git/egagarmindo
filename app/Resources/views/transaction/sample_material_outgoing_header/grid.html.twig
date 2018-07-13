@@ -1,0 +1,44 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="sampleMaterialOutgoingHeader" data-field="transactionDate">Transaction Date</th>
+            <th data-group="sampleMaterialOutgoingHeader" data-field="outgoingDate">Outgoing Date</th>
+            <th data-group="sampleMaterialOutgoingHeader" data-field="note">Note</th>
+            <th data-group="sampleMaterialOutgoingHeader" data-field="totalQuantity">Total Quantity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sampleMaterialOutgoingHeader in grid.data %}
+            <tr data-field-id="{{ sampleMaterialOutgoingHeader.id }}">
+                <td class="text-left">{{ sampleMaterialOutgoingHeader.transactionDate|default ? sampleMaterialOutgoingHeader.transactionDate|date('Y-m-d') }}</td>
+                <td class="text-left">{{ sampleMaterialOutgoingHeader.outgoingDate|default ? sampleMaterialOutgoingHeader.outgoingDate|date('Y-m-d') }}</td>
+                <td class="text-left">{{ sampleMaterialOutgoingHeader.note|default }}</td>
+                <td class="text-left">{{ sampleMaterialOutgoingHeader.totalQuantity|default }}</td>
+                <td class="text-left">
+                    {{ include('transaction/actions.html.twig', {
+                        'contents': {
+                            '{index}': null,
+                            '{new}': null,
+                            '{show}': include('action.html.twig', {'url': path('transaction_sample_material_outgoing_header_show', {'id': sampleMaterialOutgoingHeader.id}), 'button': 'btn btn-info btn-sm', 'icon': 'glyphicon glyphicon-info-sign'}),
+                            '{edit}': include('action.html.twig', {'url': path('transaction_sample_material_outgoing_header_edit', {'id': sampleMaterialOutgoingHeader.id}), 'button': 'btn btn-warning btn-sm', 'icon': 'glyphicon glyphicon-edit'}),
+                            '{delete}': include('action.html.twig', {'url': path('transaction_sample_material_outgoing_header_delete', {'id': sampleMaterialOutgoingHeader.id}), 'button': 'btn btn-danger btn-sm', 'icon': 'glyphicon glyphicon-remove'}),
+                        }
+                    }) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}

@@ -12,3 +12,53 @@ services:
         arguments: ["@security.context"]
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
+
+    app.transaction.estimation_header_repository:
+        class: AppBundle\Repository\Transaction\EstimationHeaderRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\EstimationHeader
+
+    app.transaction.estimation_header_form:
+        class: AppBundle\Service\Transaction\EstimationHeaderForm
+        arguments: ["@app.transaction.estimation_header_repository"]
+
+    app.transaction.quotation_repository:
+        class: AppBundle\Repository\Transaction\QuotationRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\Quotation
+
+    app.transaction.quotation_form:
+        class: AppBundle\Service\Transaction\QuotationForm
+        arguments: ["@app.transaction.quotation_repository"]
+
+    app.transaction.sample_request_header_repository:
+        class: AppBundle\Repository\Transaction\SampleRequestHeaderRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\SampleRequestHeader
+
+    app.transaction.sample_request_header_form:
+        class: AppBundle\Service\Transaction\SampleRequestHeaderForm
+        arguments: ["@app.transaction.sample_request_header_repository"]
+
+    app.transaction.sample_material_outgoing_header_repository:
+        class: AppBundle\Repository\Transaction\SampleMaterialOutgoingHeaderRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\SampleMaterialOutgoingHeader
+
+    app.transaction.sample_material_outgoing_header_form:
+        class: AppBundle\Service\Transaction\SampleMaterialOutgoingHeaderForm
+        arguments: ["@app.transaction.sample_material_outgoing_header_repository"]
+
+    app.transaction.purchase_order_header_repository:
+        class: AppBundle\Repository\Transaction\PurchaseOrderHeaderRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\PurchaseOrderHeader
+
+    app.transaction.purchase_order_header_form:
+        class: AppBundle\Service\Transaction\PurchaseOrderHeaderForm
+        arguments: ["@app.transaction.purchase_order_header_repository"]

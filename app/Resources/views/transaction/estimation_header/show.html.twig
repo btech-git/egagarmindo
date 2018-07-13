@@ -1,0 +1,78 @@
+{% extends 'transaction/layout.html.twig' %}
+
+{% block title 'Show Estimation Header' %}
+
+{% block actions %}
+    {{ include('transaction/actions.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Estimasi #</th>
+                <td>{{ estimationHeader.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ estimationHeader.transactionDate|default ? estimationHeader.transactionDate|date('j F Y') }}</td>
+            </tr>
+            <tr>
+                <th>Project</th>
+                <td>{{ estimationHeader.projectName|default }}</td>
+            </tr>
+            <tr>
+                <th>Salesman</th>
+                <td>{{ estimationHeader.salesmanName|default }}</td>
+            </tr>
+            <tr>
+                <th>Model</th>
+                <td>{{ estimationHeader.modelName|default }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ estimationHeader.note|default }}</td>
+            </tr>
+        </tbody>
+    </table>            
+    <hr />
+           
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Komponen</th>
+                <th style="width: 10%">Kategori</th>
+                <th style="width: 10%">Supplier</th>
+                <th style="width: 10%">Qty</th>
+                <th style="width: 10%">Satuan</th>
+                <th style="width: 10%">Harga</th>
+                <th style="width: 15%">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estimationDetail in estimationHeader.estimationDetails %}
+                <tr>
+                    <td class="text-left">{{ estimationDetail.material.name|default }}</td>
+                    <td class="text-left">{{ estimationDetail.material.materialCategory.name|default }}</td>
+                    <td class="text-left">{{ estimationDetail.supplier.name|default }}</td>
+                    <td class="text-center">{{ estimationDetail.quantity|default|number_format(4) }}</td>
+                    <td class="text-left">{{ estimationDetail.material.unit.name|default }}</td>
+                    <td class="text-right">{{ estimationDetail.unitPrice|default|number_format(2) }}</td>
+                    <td class="text-right">{{ estimationDetail.total|default|number_format(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-right" colspan="3"></td>
+                <td class="text-center">{{ estimationHeader.totalQuantity|default|number_format(4) }}</td>
+                <td class="text-right" colspan="2">Total HPP</td>
+                <td class="text-right">{{ estimationHeader.totalMaterialCost|default|number_format(2) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+                
+    <a target="_blank" class="btn btn-info" href="{{ path('transaction_estimation_header_memo', {'id': estimationHeader.id}) }}">
+        <span class="glyphicon glyphicon-print"></span> Print
+    </a>
+{% endblock %}

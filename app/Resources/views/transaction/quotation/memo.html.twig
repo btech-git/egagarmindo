@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Memo' %}
+
+{% block body %}
+    <div class="memo">
+        <div class="header">
+            <h1 class="title">PT. EGA WAYANG GARMINDO</h1>
+            <h2 class="title">FORM ESTIMASI</h2>
+        </div>
+        
+        <br />
+        
+        <div class="note">
+            <div class="table full">
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">ESTIMASI #</div>
+                            <div class="cell value">{{ estimationHeader.codeNumber|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Tanggal</div>
+                            <div class="cell value">{{ estimationHeader.transactionDate|default ? estimationHeader.transactionDate|date('j F Y') }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Project</div>
+                            <div class="cell value">{{ estimationHeader.projectName|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Salesman</div>
+                            <div class="cell value">{{ estimationHeader.salesmanName|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Model</div>
+                            <div class="cell value">{{ estimationHeader.modelName|default }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br />
+        
+        <table class="detail">
+            <thead>
+                <tr class="bg-info">
+                    <th>Komponen</th>
+                    <th style="width: 10%">Kategori</th>
+                    <th style="width: 10%">Merk</th>
+                    <th style="width: 10%">Type</th>
+                    <th style="width: 10%">Supplier</th>
+                    <th style="width: 10%">Qty</th>
+                    <th style="width: 10%">Satuan</th>
+                    <th style="width: 10%">Harga</th>
+                    <th style="width: 15%">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estimationDetail in estimationHeader.estimationDetails %}
+                    <tr>
+                        <td class="left">{{ estimationDetail.material.name|default }}</td>
+                        <td class="left">{{ estimationDetail.material.materialCategory.name|default }}</td>
+                        <td class="left">{{ estimationDetail.material.brand.name|default }}</td>
+                        <td class="left">{{ estimationDetail.material.typeName|default }}</td>
+                        <td class="left">{{ estimationDetail.supplier.name|default }}</td>
+                        <td class="center">{{ estimationDetail.quantity|default|number_format(0) }}</td>
+                        <td class="left">{{ estimationDetail.material.unit.name|default }}</td>
+                        <td class="right">{{ estimationDetail.unitPrice|default|number_format(2) }}</td>
+                        <td class="right">{{ estimationDetail.total|default|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="right" colspan="5"></td>
+                    <td class="center">{{ estimationHeader.totalQuantity|default|number_format(0) }}</td>
+                    <td class="right" colspan="2">Total HPP</td>
+                    <td class="right">{{ estimationHeader.totalMaterialCost|default|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <td class="right" colspan="8">
+                        <span style="display: inline-block">By Transport</span>
+                        <span style="display: inline-block">
+                            {{ estimationHeader.transportationPercentage|default|number_format(2) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td class="right">{{ estimationHeader.transportationNominal|default|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <td class="right" colspan="8">
+                        <span style="display: inline-block">By Sample</span>
+                        <span style="display: inline-block">
+                            {{ estimationHeader.samplingPercentage|default|number_format(2) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td class="right">{{ estimationHeader.samplingNominal|default|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <td class="right" colspan="8>
+                        <span style="display: inline-block">By Overhead</span>
+                        <span style="display: inline-block">
+                            {{ estimationHeader.overheadPercentage|default|number_format(2) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td class="right">{{ estimationHeader.overheadNominal|default|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <td class="right" colspan="8">Total Biaya</td>
+                    <td class="right">{{ estimationHeader.totalOperationalCost|default|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <td class="right" colspan="8">Total HPP + Biaya</td>
+                    <td class="right">{{ estimationHeader.grandTotal|default|number_format(2) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <br />
+        <div class="note">
+            <div class="table">
+                <div class="cell label">Catatan:</div>
+                <div class="cell">&nbsp;&nbsp;</div>
+                <div class="cell">{{ estimationHeader.note|default }}</div>
+            </div>
+        </div>
+        
+        <br />
+        
+        <div class="signature">
+            <div class="table full">
+                <div class="cell sig">
+                    <div>Penerima,</div>
+                </div>
+                <div class="cell sig">
+                    <div>Hormat Kami,</div>
+                    <div class="blank"></div>
+                    <div class="blank"></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets_include %}
+    <link rel="stylesheet" href="{{ asset('css/memo.css') }}" />
+{% endblock %}
+
+{% block javascripts_include %}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .col:nth-child(1) { width: 50% }
+        .col:nth-child(2) { width: 50% }
+        
+        .col:nth-child(1) .label { width: 35% }
+        .col:nth-child(1) .value { width: 65% }
+        .col:nth-child(2) .label { width: 35% }
+        .col:nth-child(2) .value { width: 65% }
+        
+        .sig:nth-child(1) { width: 50% }
+        .sig:nth-child(2) { width: 50% }
+    </style>
+{% endblock %}

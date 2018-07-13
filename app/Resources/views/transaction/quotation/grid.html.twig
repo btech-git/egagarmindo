@@ -1,0 +1,52 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="quotation" data-field="transactionDate">Transaction Date</th>
+            <th data-group="quotation" data-field="quantity">Quantity</th>
+            <th data-group="quotation" data-field="sellingUnitPrice">Selling Unit Price</th>
+            <th data-group="quotation" data-field="totalSellingPrice">Total Selling Price</th>
+            <th data-group="quotation" data-field="totalCost">Total Cost</th>
+            <th data-group="quotation" data-field="totalProfit">Total Profit</th>
+            <th data-group="quotation" data-field="salesmanCommissionPercentage">Salesman Commission Percentage</th>
+            <th data-group="quotation" data-field="note">Note</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quotation in grid.data %}
+            <tr data-field-id="{{ quotation.id }}">
+                <td class="text-left">{{ quotation.transactionDate|default ? quotation.transactionDate|date('j M Y') }}</td>
+                <td class="text-left">{{ quotation.quantity|default }}</td>
+                <td class="text-right">{{ quotation.sellingUnitPrice|default|number_format(2) }}</td>
+                <td class="text-right">{{ quotation.totalSellingPrice|default|number_format(2) }}</td>
+                <td class="text-right">{{ quotation.totalCost|default|number_format(2) }}</td>
+                <td class="text-right">{{ quotation.totalProfit|default|number_format(2) }}</td>
+                <td class="text-right">{{ quotation.salesmanCommissionPercentage|default|number_format(2) }}</td>
+                <td class="text-left">{{ quotation.note|default }}</td>
+                <td class="text-left">
+                    {{ include('transaction/actions.html.twig', {
+                        'contents': {
+                            '{index}': null,
+                            '{new}': null,
+                            '{show}': include('action.html.twig', {'url': path('transaction_quotation_show', {'id': quotation.id}), 'button': 'btn btn-info btn-sm', 'icon': 'glyphicon glyphicon-info-sign'}),
+                            '{edit}': include('action.html.twig', {'url': path('transaction_quotation_edit', {'id': quotation.id}), 'button': 'btn btn-warning btn-sm', 'icon': 'glyphicon glyphicon-edit'}),
+                            '{delete}': include('action.html.twig', {'url': path('transaction_quotation_delete', {'id': quotation.id}), 'button': 'btn btn-danger btn-sm', 'icon': 'glyphicon glyphicon-remove'}),
+                        }
+                    }) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}

@@ -1,0 +1,221 @@
+{% extends 'transaction/layout.html.twig' %}
+
+{% block title 'Show Quotation' %}
+
+{% block actions %}
+    {{ include('transaction/actions.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Penawaran #</th>
+                <td>{{ quotation.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ quotation.transactionDate|default ? quotation.transactionDate|date('j F Y') }}</td>
+            </tr>
+            <tr>
+                <th>Estimasi #</th>
+                <td>{{ quotation.estimationHeader.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Project</th>
+                <td>{{ quotation.estimationHeader.projectName|default }}</td>
+            </tr>
+            <tr>
+                <th>Salesman</th>
+                <td>{{ quotation.estimationHeader.salesmanName|default }}</td>
+            </tr>
+            <tr>
+                <th>Model</th>
+                <td>{{ quotation.estimationHeader.modelName|default }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ quotation.note|default }}</td>
+            </tr>
+        </tbody>
+    </table>
+            
+    <table class="table table-bordered" id="cost-list">
+        <thead>
+            <tr class="bg-info">
+                <th colspan="3">Biaya</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>HPP</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalMaterialCost|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">By Sample</span>
+                    <span style="display: inline-block">
+                        {{ quotation.samplingPercentage|default|number_format(2) }}
+                    </span>
+                    <span style="display: inline-block">%</span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.samplingNominal|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">By Overhead</span>
+                    <span style="display: inline-block">
+                        {{ quotation.overheadPercentage|default|number_format(2) }}
+                    </span>
+                    <span style="display: inline-block">%</span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.overheadNominal|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">By Transport</span>
+                    <span style="display: inline-block">
+                        {{ quotation.transportationPercentage|default|number_format(2) }}
+                    </span>
+                    <span style="display: inline-block">%</span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.transportationNominal|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>Total Biaya</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalOperationalCost|default|number_format(2) }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total HPP + Biaya</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalCost|default|number_format(2) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <br />
+
+    <table class="table table-bordered" id="estimation-list">
+        <thead>
+            <tr class="bg-info">
+                <th colspan="2">RC</th>
+                <th>Harga Jual RC</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span style="display: inline-block">1.</span>
+                    <span style="display: inline-block">
+                        {{ quotation.estimatedSellingPercentage1|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.estimatedSellingPrice1|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">2.</span>
+                    <span style="display: inline-block">
+                        {{ quotation.estimatedSellingPercentage2|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.estimatedSellingPrice2|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">3.</span>
+                    <span style="display: inline-block">
+                        {{ quotation.estimatedSellingPercentage3|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.estimatedSellingPrice3|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">4.</span>
+                    <span style="display: inline-block">
+                        {{ quotation.estimatedSellingPercentage4|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.estimatedSellingPrice4|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: inline-block">5.</span>
+                    <span style="display: inline-block">
+                        {{ quotation.estimatedSellingPercentage5|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.estimatedSellingPrice5|default|number_format(2) }}</td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+
+    <br />
+
+    <table class="table table-bordered" id="quotation-list">
+        <thead>
+            <tr class="bg-info">
+                <th colspan="3">Harga Jual Sebelum Pembulatan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span style="display: inline-block">Harga Jual /pcs</span>
+                    <span style="display: inline-block">
+                        {{ quotation.sellingUnitPercentage|default|number_format(2) }}
+                    </span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.sellingUnitPrice|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>Quantity (pcs)</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.quantity|default|number_format(0) }}</td>
+            </tr>
+            <tr>
+                <td>Total Harga Jual /pcs</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalSellingPrice|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>Total HPP</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalCost|default|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>Profit</td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.totalProfit|default|number_format(2) }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <span style="display: inline-block">KOMISI SALES</span>
+                    <span style="display: inline-block">
+                        {{ quotation.salesmanCommissionPercentage|default|number_format(2) }}
+                    </span>
+                    <span style="display: inline-block">%</span>
+                </td>
+                <td>:</td>
+                <td class="text-right">{{ quotation.salesmanCommissionAmount|default|number_format(0) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

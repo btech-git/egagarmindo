@@ -1,0 +1,46 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="material" data-field="code">Code</th>
+            <th data-group="material" data-field="name">Name</th>
+            <th data-group="material" data-field="weightedPurchasePrice">Weighted Purchase Price</th>
+            <th data-group="material" data-field="sellingPrice">Selling Price</th>
+            <th data-group="material" data-field="isActive">Is Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for material in grid.data %}
+            <tr data-field-id="{{ material.id }}">
+                <td class="text-left">{{ material.code|default }}</td>
+                <td class="text-left">{{ material.name|default }}</td>
+                <td class="text-right">{{ material.weightedPurchasePrice|default|number_format(2) }}</td>
+                <td class="text-right">{{ material.sellingPrice|default|number_format(2) }}</td>
+                <td class="text-left">{{ material.isActive|default ? 'Yes' : 'No' }}</td>
+                <td class="text-left">
+                    {{ include('master/actions.html.twig', {
+                        'contents': {
+                            '{index}': null,
+                            '{new}': null,
+                            '{show}': include('action.html.twig', {'url': path('master_material_show', {'id': material.id}), 'button': 'btn btn-info btn-sm', 'icon': 'glyphicon glyphicon-info-sign'}),
+                            '{edit}': include('action.html.twig', {'url': path('master_material_edit', {'id': material.id}), 'button': 'btn btn-warning btn-sm', 'icon': 'glyphicon glyphicon-edit'}),
+                            '{delete}': include('action.html.twig', {'url': path('master_material_delete', {'id': material.id}), 'button': 'btn btn-danger btn-sm', 'icon': 'glyphicon glyphicon-remove'}),
+                        }
+                    }) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}

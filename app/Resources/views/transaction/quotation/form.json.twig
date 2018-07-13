@@ -1,0 +1,19 @@
+{
+    "totalMaterialCost": {{ quotation.totalMaterialCost|default|number_format(2)|json_encode|raw }},
+    "samplingNominal": {{ quotation.samplingNominal|default|number_format(2)|json_encode|raw }},
+    "overheadNominal": {{ quotation.overheadNominal|default|number_format(2)|json_encode|raw }},
+    "transportationNominal": {{ quotation.transportationNominal|default|number_format(2)|json_encode|raw }},
+    "totalOperationalCost": {{ quotation.totalOperationalCost|default|number_format(2)|json_encode|raw }},
+    "totalCost": {{ quotation.totalCost|default|number_format(2)|json_encode|raw }},
+    "estimatedSellingPrice1": {{ quotation.estimatedSellingPrice1|default|number_format(2)|json_encode|raw }},
+    "estimatedSellingPrice2": {{ quotation.estimatedSellingPrice2|default|number_format(2)|json_encode|raw }},
+    "estimatedSellingPrice3": {{ quotation.estimatedSellingPrice3|default|number_format(2)|json_encode|raw }},
+    "estimatedSellingPrice4": {{ quotation.estimatedSellingPrice4|default|number_format(2)|json_encode|raw }},
+    "estimatedSellingPrice5": {{ quotation.estimatedSellingPrice5|default|number_format(2)|json_encode|raw }},
+    "sellingUnitPercentage": {{ quotation.sellingUnitPercentage|default|number_format(2)|json_encode|raw }},
+    "totalSellingPrice": {{ quotation.totalSellingPrice|default|number_format(2)|json_encode|raw }},
+    "grandTotalCost": {{ quotation.grandTotalCost|default|number_format(2)|json_encode|raw }},
+    "totalProfit": {{ quotation.totalProfit|default|number_format(2)|json_encode|raw }},
+    "salesmanCommissionPercentage": {{ quotation.salesmanCommissionPercentage|default|number_format(2)|json_encode|raw }},
+    "salesmanCommissionAmount": {{ quotation.salesmanCommissionAmount|default|number_format(2)|json_encode|raw }}
+}

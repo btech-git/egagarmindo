@@ -1,0 +1,30 @@
+{% extends 'transaction/layout.html.twig' %}
+
+{% block title 'Show Sample Material Outgoing Header' %}
+
+{% block actions %}
+    {{ include('transaction/actions.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ sampleMaterialOutgoingHeader.transactionDate|default ? sampleMaterialOutgoingHeader.transactionDate|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Outgoing Date</th>
+                <td>{{ sampleMaterialOutgoingHeader.outgoingDate|default ? sampleMaterialOutgoingHeader.outgoingDate|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ sampleMaterialOutgoingHeader.note|default }}</td>
+            </tr>
+            <tr>
+                <th>Total Quantity</th>
+                <td>{{ sampleMaterialOutgoingHeader.totalQuantity|default }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

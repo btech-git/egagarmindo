@@ -1,0 +1,53 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="estimationHeader" data-field="codeNumber">Estimasi #</th>
+            <th data-group="estimationHeader" data-field="transactionDate">Tanggal</th>
+            <th data-group="estimationHeader" data-field="projectName">Project</th>
+            <th data-group="estimationHeader" data-field="salesmanName">Salesman</th>
+            <th data-group="estimationHeader" data-field="modelName">Model</th>
+        </tr>
+        <tr data-action="search">
+            <th data-group="estimationHeader" data-field="codeNumber"></th>
+            <th data-group="estimationHeader" data-field="transactionDate"></th>
+            <th data-group="estimationHeader" data-field="projectName"></th>
+            <th data-group="estimationHeader" data-field="salesmanName"></th>
+            <th data-group="estimationHeader" data-field="modelName"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for estimationHeader in grid.data %}
+            <tr data-field-id="{{ estimationHeader.id }}"
+                data-field-code-number="{{ estimationHeader.codeNumber|default }}"
+                data-field-transaction-date="{{ estimationHeader.transactionDate|default ? estimationHeader.transactionDate|date('j M Y') }}"
+                data-field-project-name="{{ estimationHeader.projectName|default }}"
+                data-field-salesman-name="{{ estimationHeader.salesmanName|default }}"
+                data-field-model-name="{{ estimationHeader.modelName|default }}"
+                data-field-estimation-details-count="{{ estimationHeader.estimationDetails.count|default }}">
+                <td class="text-left">{{ estimationHeader.codeNumber|default }}</td>
+                <td class="text-left">{{ estimationHeader.transactionDate|default ? estimationHeader.transactionDate|date('j M Y') }}</td>
+                <td class="text-left">{{ estimationHeader.projectName|default }}</td>
+                <td class="text-left">{{ estimationHeader.salesmanName|default }}</td>
+                <td class="text-left">{{ estimationHeader.modelName|default }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}
+
+<script>
+    jQuery(function($) {
+        $("#{{ grid.id }}-top").css("display", "none");
+    });
+</script>

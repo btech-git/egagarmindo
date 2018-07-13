@@ -1,0 +1,49 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="sampleRequestHeader" data-field="codeNumber">Request #</th>
+            <th data-group="sampleRequestHeader" data-field="transactionDate">Tanggal</th>
+            <th data-group="sampleRequestHeader" data-field="projectName">Project</th>
+            <th data-group="sampleRequestHeader" data-field="modelName">Model</th>
+        </tr>
+        <tr data-action="search">
+            <th data-group="sampleRequestHeader" data-field="codeNumber"></th>
+            <th data-group="sampleRequestHeader" data-field="transactionDate"></th>
+            <th data-group="sampleRequestHeader" data-field="projectName"></th>
+            <th data-group="sampleRequestHeader" data-field="modelName"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sampleRequestHeader in grid.data %}
+            <tr data-field-id="{{ sampleRequestHeader.id }}"
+                data-field-code-number="{{ sampleRequestHeader.codeNumber|default }}"
+                data-field-transaction-date="{{ sampleRequestHeader.transactionDate|default ? sampleRequestHeader.transactionDate|date('j M Y') }}"
+                data-field-project-name="{{ sampleRequestHeader.quotation.estimationHeader.projectName|default }}"
+                data-field-model-name="{{ sampleRequestHeader.quotation.estimationHeader.modelName|default }}"
+                data-field-sample-request-details-count="{{ sampleRequestHeader.sampleRequestDetails.count|default }}">
+                <td class="text-left">{{ sampleRequestHeader.codeNumber|default }}</td>
+                <td class="text-left">{{ sampleRequestHeader.transactionDate|default ? sampleRequestHeader.transactionDate|date('j M Y') }}</td>
+                <td class="text-left">{{ sampleRequestHeader.quotation.estimationHeader.projectName|default }}</td>
+                <td class="text-left">{{ sampleRequestHeader.quotation.estimationHeader.modelName|default }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}
+
+<script>
+    jQuery(function($) {
+        $("#{{ grid.id }}-top").css("display", "none");
+    });
+</script>

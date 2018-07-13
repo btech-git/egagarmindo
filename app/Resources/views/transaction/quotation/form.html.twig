@@ -1,0 +1,364 @@
+{% extends 'transaction/layout.html.twig' %}
+
+{% block actions %}
+    {{ include('transaction/actions.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+        <div>{{ form_errors(form) }}</div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Penawaran #</label>
+                    <div>{{ quotation.codeNumber }}</div>
+                </div>
+                {{ form_row(form.transactionDate, {'label': 'Tanggal'}) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_row(form.estimationHeader, {'attr': {'readonly': true, 'data-toggle': 'modal', 'data-target': '#estimation-header-dialog'} }) }}
+                <div class="form-group" id="estimation-header-info">
+                    <div>
+                        <label>Estimasi #:</label>
+                        <span data-name="code-number">{{ quotation.estimationHeader.codeNumber|default }}</span>
+                    </div>
+                    <div>
+                        <label>Tanggal:</label>
+                        <span data-name="transaction-date">{{ quotation.estimationHeader.transactionDate|default ? quotation.estimationHeader.transactionDate|date('j M Y') }}</span>
+                    </div>
+                    <div>
+                        <label>Project:</label>
+                        <span data-name="project-name">{{ quotation.estimationHeader.projectName|default }}</span>
+                    </div>
+                    <div>
+                        <label>Salesman:</label>
+                        <span data-name="salesman-name">{{ quotation.estimationHeader.salesmanName|default }}</span>
+                    </div>
+                    <div>
+                        <label>Model:</label>
+                        <span data-name="model-name">{{ quotation.estimationHeader.modelName|default }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div>{{ form_row(form.note) }}</div>
+            
+        <hr />
+        
+        <br />
+        
+        <table class="table table-bordered" id="cost-list">
+            <thead>
+                <tr class="bg-info">
+                    <th colspan="3">Biaya</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>HPP</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="total-material-cost">{{ quotation.totalMaterialCost|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="display: inline-block">By Sample</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.samplingPercentage, {'label': false, 'attr': {'data-name': 'sampling-percentage', 'size': 3} }) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="sampling-nominal">{{ quotation.samplingNominal|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="display: inline-block">By Overhead</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.overheadPercentage, {'label': false, 'attr': {'data-name': 'overhead-percentage', 'size': 3} }) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="overhead-nominal">{{ quotation.overheadNominal|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="display: inline-block">By Transport</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.transportationPercentage, {'label': false, 'attr': {'data-name': 'transportation-percentage', 'size': 3} }) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="transportation-nominal">{{ quotation.transportationNominal|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>Total Biaya</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="total-operational-cost">{{ quotation.totalOperationalCost|default|number_format(2) }}</span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total HPP + Biaya</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="total-cost">{{ quotation.totalCost|default|number_format(2) }}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <br />
+        
+        <table class="table table-bordered" id="estimation-list">
+            <thead>
+                <tr class="bg-info">
+                    <th colspan="2">RC</th>
+                    <th>Harga Jual RC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">
+                        <span style="display: inline-block">1.</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.estimatedSellingPercentage1, {'label': false, 'attr': {'data-name': 'estimated-percentage-1', 'size': 3} }) }}
+                        </span>
+                    </td>
+                    <td class="text-center">:</td>
+                    <td class="text-right">
+                        <span data-name="estimated-nominal-1">
+                            {{ quotation.estimatedSellingPrice1|default|number_format(2) }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <span style="display: inline-block">2.</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.estimatedSellingPercentage2, {'label': false, 'attr': {'data-name': 'estimated-percentage-2', 'size': 3} }) }}
+                        </span>
+                    </td>
+                    <td class="text-center">:</td>
+                    <td class="text-right">
+                        <span data-name="estimated-nominal-2">
+                            {{ quotation.estimatedSellingPrice2|default|number_format(2) }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <span style="display: inline-block">3.</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.estimatedSellingPercentage3, {'label': false, 'attr': {'data-name': 'estimated-percentage-3', 'size': 3} }) }}
+                        </span>
+                    </td>
+                    <td class="text-center">:</td>
+                    <td class="text-right">
+                        <span data-name="estimated-nominal-3">
+                            {{ quotation.estimatedSellingPrice3|default|number_format(2) }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <span style="display: inline-block">4.</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.estimatedSellingPercentage4, {'label': false, 'attr': {'data-name': 'estimated-percentage-4', 'size': 3} }) }}
+                        </span>
+                    </td>
+                    <td class="text-center">:</td>
+                    <td class="text-right">
+                        <span data-name="estimated-nominal-4">
+                            {{ quotation.estimatedSellingPrice4|default|number_format(2) }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <span style="display: inline-block">5.</span>
+                        <span style="display: inline-block">
+                            {{ form_row(form.estimatedSellingPercentage5, {'label': false, 'attr': {'data-name': 'estimated-percentage-5', 'size': 3} }) }}
+                        </span>
+                    </td>
+                    <td class="text-center">:</td>
+                    <td class="text-right">
+                        <span data-name="estimated-nominal-5">
+                            {{ quotation.estimatedSellingPrice5|default|number_format(2) }}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+        
+        <br />
+        
+        <table class="table table-bordered" id="selling-list">
+            <thead>
+                <tr class="bg-info">
+                    <th colspan="3">Harga Jual Sebelum Pembulatan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span style="display: inline-block">Harga Jual /pcs</span>
+                        <span style="display: inline-block" data-name="selling-unit-percentage">
+                            {{ quotation.sellingUnitPercentage|default|number_format(2) }}
+                        </span>
+                    </td>
+                    <td>:</td>
+                    <td>{{ form_row(form.sellingUnitPrice, {'label': false, 'attr': {'data-name': 'selling-unit-price'} }) }}</td>
+                </tr>
+                <tr>
+                    <td>Quantity (pcs)</td>
+                    <td>:</td>
+                    <td>{{ form_row(form.quantity, {'label': false, 'attr': {'data-name': 'quantity'} }) }}</td>
+                </tr>
+                <tr>
+                    <td>Total Harga Jual /pcs</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="total-selling-price">{{ quotation.totalSellingPrice|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>Total HPP</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="grand-total-cost">{{ quotation.totalCost|default|number_format(2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>Profit</td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="total-profit">{{ quotation.totalProfit|default|number_format(2) }}</span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <span style="display: inline-block">KOMISI SALES</span>
+                        <span style="display: inline-block" data-name="salesman-commission-percentage">
+                            {{ quotation.salesmanCommissionPercentage|default|number_format(2) }}
+                        </span>
+                        <span style="display: inline-block">%</span>
+                    </td>
+                    <td>:</td>
+                    <td class="text-right"><span data-name="salesman-commission-amount">{{ quotation.salesmanCommissionAmount|default|number_format(2) }}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <input class="btn btn-primary navbar-inverse" type="submit" value="Save" data-confirm="Do you want to proceed?" />
+
+        <div id="estimation-header-dialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" style="width: 90%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Estimasi List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="estimation-header-grid" data-grid="{{ path('common_estimation_header_grid', {'form': form.vars.id}) }}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(function($) {
+            function bind() {
+                $.ajax({
+                    method: "POST",
+                    url: "{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}",
+                    data: $("form").serialize(),
+                    dataType: "JSON",
+                    success: function(data) {
+                        var table = $("#cost-list");
+                        var tableBody = $("tbody", table);
+                        var tableFoot = $("tfoot", table);
+                        $("[data-name=total-material-cost]", tableBody).text(data.totalMaterialCost);
+                        $("[data-name=sampling-nominal]", tableBody).text(data.samplingNominal);
+                        $("[data-name=overhead-nominal]", tableBody).text(data.overheadNominal);
+                        $("[data-name=transportation-nominal]", tableBody).text(data.transportationNominal);
+                        $("[data-name=total-operational-cost]", tableBody).text(data.totalOperationalCost);
+                        $("[data-name=total-cost]", tableFoot).text(data.totalCost);
+                        
+                        var table = $("#estimation-list");
+                        var tableBody = $("tbody", table);
+                        $("[data-name=estimated-nominal-1]", tableBody).text(data.estimatedSellingPrice1);
+                        $("[data-name=estimated-nominal-2]", tableBody).text(data.estimatedSellingPrice2);
+                        $("[data-name=estimated-nominal-3]", tableBody).text(data.estimatedSellingPrice3);
+                        $("[data-name=estimated-nominal-4]", tableBody).text(data.estimatedSellingPrice4);
+                        $("[data-name=estimated-nominal-5]", tableBody).text(data.estimatedSellingPrice5);
+                        
+                        var table = $("#selling-list");
+                        var tableBody = $("tbody", table);
+                        var tableFoot = $("tfoot", table);
+                        $("[data-name=selling-unit-percentage]", tableBody).text(data.sellingUnitPercentage);
+                        $("[data-name=total-selling-price]", tableBody).text(data.totalSellingPrice);
+                        $("[data-name=grand-total-cost]", tableBody).text(data.grandTotalCost);
+                        $("[data-name=total-profit]", tableBody).text(data.totalProfit);
+                        $("[data-name=salesman-commission-percentage]", tableFoot).text(data.salesmanCommissionPercentage);
+                        $("[data-name=salesman-commission-amount]", tableFoot).text(data.salesmanCommissionAmount)
+                    }
+                });
+            }
+            
+            var table = $("#cost-list");
+            var tableBody = $("tbody", table);
+            
+            tableBody.on("change", "[data-name=sampling-percentage]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=overhead-percentage]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=transportation-percentage]", function() {
+                bind();
+            });
+            
+            var table = $("#estimation-list");
+            var tableBody = $("tbody", table);
+            
+            tableBody.on("change", "[data-name=estimated-percentage-1]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=estimated-percentage-2]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=estimated-percentage-3]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=estimated-percentage-4]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=estimated-percentage-5]", function() {
+                bind();
+            });
+            
+            var table = $("#selling-list");
+            var tableBody = $("tbody", table);
+            
+            tableBody.on("change", "[data-name=selling-unit-price]", function() {
+                bind();
+            });
+            tableBody.on("change", "[data-name=quantity]", function() {
+                bind();
+            });
+            
+            $("#estimation-header-grid").on("click", "table[data-role=table] tbody tr", function() {
+                $("#estimation-header-dialog").modal("hide");
+                $("#{{ form.estimationHeader.vars.id }}").val($(this).attr("data-field-id"));
+                $("[data-name=code-number]", "#estimation-header-info").text($(this).attr("data-field-code-number"));
+                $("[data-name=transaction-date]", "#estimation-header-info").text($(this).attr("data-field-transaction-date"));
+                $("[data-name=project-name]", "#estimation-header-info").text($(this).attr("data-field-project-name"));
+                $("[data-name=salesman-name]", "#estimation-header-info").text($(this).attr("data-field-salesman-name"));
+                $("[data-name=model-name]", "#estimation-header-info").text($(this).attr("data-field-model-name"));
+                bind();
+            });
+        });
+    </script>
+{% endblock %}

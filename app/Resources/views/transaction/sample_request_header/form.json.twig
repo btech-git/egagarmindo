@@ -1,0 +1,13 @@
+{
+    "totalQuantity": {{ sampleRequestHeader.totalQuantity|default|number_format(0)|json_encode|raw }},
+    "sampleRequestDetails": {
+        {%- for index, sampleRequestDetail in sampleRequestHeader.sampleRequestDetails -%}
+            "{{ index }}": {
+                "materialName": {{ sampleRequestDetail.material.name|default|json_encode|raw }},
+                "estimationDetailQuantity": {{ sampleRequestDetail.estimationDetail.quantity|default|json_encode|raw }},
+                "unitName": {{ sampleRequestDetail.material.unit.name|default|json_encode|raw }}
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    }
+}

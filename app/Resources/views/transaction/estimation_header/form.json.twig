@@ -1,0 +1,12 @@
+{
+    "totalQuantity": {{ estimationHeader.totalQuantity|default|number_format(4)|json_encode|raw }},
+    "totalMaterialCost": {{ estimationHeader.totalMaterialCost|default|number_format(2)|json_encode|raw }},
+    "estimationDetails": {
+        {%- for index, estimationDetail in estimationHeader.estimationDetails -%}
+            "{{ index }}": {
+                "total": {{ estimationDetail.total|default|number_format(2)|json_encode|raw }}
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    }
+}

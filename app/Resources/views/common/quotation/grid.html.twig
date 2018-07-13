@@ -1,0 +1,49 @@
+{% set grid_layout = 'datagrid.html.twig' %}
+
+{{ grid_top(grid) }}
+
+<table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr data-action="sort" class="alert alert-info">
+            <th data-group="quotation" data-field="codeNumber">Penawaran #</th>
+            <th data-group="quotation" data-field="transactionDate">Tanggal</th>
+            <th data-group="quotation" data-field="projectName">Project</th>
+            <th data-group="quotation" data-field="modelName">Model</th>
+        </tr>
+        <tr data-action="search">
+            <th data-group="quotation" data-field="codeNumber"></th>
+            <th data-group="quotation" data-field="transactionDate"></th>
+            <th data-group="quotation" data-field="projectName"></th>
+            <th data-group="quotation" data-field="modelName"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quotation in grid.data %}
+            <tr data-field-id="{{ quotation.id }}"
+                data-field-code-number="{{ quotation.codeNumber|default }}"
+                data-field-transaction-date="{{ quotation.transactionDate|default ? quotation.transactionDate|date('j M Y') }}"
+                data-field-project-name="{{ quotation.estimationHeader.projectName|default }}"
+                data-field-model-name="{{ quotation.estimationHeader.modelName|default }}"
+                data-field-estimation-details-count="{{ quotation.estimationHeader.estimationDetails.count|default }}">
+                <td class="text-left">{{ quotation.codeNumber|default }}</td>
+                <td class="text-left">{{ quotation.transactionDate|default ? quotation.transactionDate|date('j M Y') }}</td>
+                <td class="text-left">{{ quotation.estimationHeader.projectName|default }}</td>
+                <td class="text-left">{{ quotation.estimationHeader.modelName|default }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="alert alert-warning">
+                    <strong>There are no items to display.</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid_bottom(grid) }}
+
+<script>
+    jQuery(function($) {
+        $("#{{ grid.id }}-top").css("display", "none");
+    });
+</script>
