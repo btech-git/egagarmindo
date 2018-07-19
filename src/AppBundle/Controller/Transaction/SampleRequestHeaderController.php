@@ -127,7 +127,7 @@ class SampleRequestHeaderController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $sampleRequestHeaderService->delete($sampleRequestHeaderService);
+                $sampleRequestHeaderService->delete($sampleRequestHeader);
 
                 $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
             } else {

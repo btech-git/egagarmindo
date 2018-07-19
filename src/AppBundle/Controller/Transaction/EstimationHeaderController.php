@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller\Transaction;
 
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -127,7 +129,7 @@ class EstimationHeaderController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $estimationHeaderService->delete($estimationHeaderService);
+                $estimationHeaderService->delete($estimationHeader);
 
                 $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
             } else {
@@ -152,6 +154,33 @@ class EstimationHeaderController extends Controller
     {
         return $this->render('transaction/estimation_header/memo.html.twig', array(
             'estimationHeader' => $estimationHeader,
+        ));
+    }
+
+    /**
+     * @Route("/{id}/add_image", name="transaction_estimation_header_add_image", requirements={"id": "\d+"})
+     * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_TRANSACTION')")
+     */
+    public function addImageAction(Request $request, EstimationHeader $estimationHeader)
+    {
+        $estimationHeaderService = $this->get('app.transaction.estimation_header_image');
+        $form = $this->createFormBuilder()
+            ->add('files', FileType::class, array('multiple' => true, 'constraints' => array(new Count(array('min' => 1)))))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData = $form->getData();
+            $directory = $this->getParameter('kernel.root_dir') . '/../web/data/images/estimation';
+            $estimationHeaderService->save($formData['files'], $estimationHeader, $directory);
+
+            return $this->redirectToRoute('transaction_estimation_header_show', array('id' => $estimationHeader->getId()));
+        }
+
+        return $this->render('transaction/estimation_header/add_image.html.twig', array(
+            'estimationHeader' => $estimationHeader,
+            'form' => $form->createView(),
         ));
     }
 }

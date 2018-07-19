@@ -127,7 +127,7 @@ class SampleMaterialOutgoingHeaderController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $sampleMaterialOutgoingHeaderService->delete($sampleMaterialOutgoingHeaderService);
+                $sampleMaterialOutgoingHeaderService->delete($sampleMaterialOutgoingHeader);
 
                 $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
             } else {

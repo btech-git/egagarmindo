@@ -6,6 +6,20 @@
     {{ include('transaction/actions.html.twig') }}
 {% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .panel-body div {
+            vertical-align: top;
+            display: inline-block;
+            width: 30%;
+            margin: 1.5%;
+        }
+        .panel-body img {
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <table class="table table-bordered table-striped">
         <tbody>
@@ -34,7 +48,8 @@
                 <td>{{ estimationHeader.note|default }}</td>
             </tr>
         </tbody>
-    </table>            
+    </table>
+            
     <hr />
            
     <table class="table table-bordered table-striped">
@@ -71,8 +86,28 @@
             </tr>
         </tfoot>
     </table>
+    
+    <hr />
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title">
+                <label>Images</label>
+            </h1>
+        </div>
+        <div class="panel-body">
+            {% for estimationImage in estimationHeader.estimationImages %}
+                <div>
+                    <img src="{{ asset('data/images/estimation/' ~ estimationImage.id ~ '.' ~ estimationImage.fileExtension) }}" />
+                </div>
+            {% endfor %}
+        </div>
+    </div>
                 
     <a target="_blank" class="btn btn-info" href="{{ path('transaction_estimation_header_memo', {'id': estimationHeader.id}) }}">
         <span class="glyphicon glyphicon-print"></span> Print
+    </a>
+    <a class="btn btn-primary" href="{{ path('transaction_estimation_header_add_image', {'id': estimationHeader.id}) }}">
+        <span class="glyphicon glyphicon-plus"></span> Add Images
     </a>
 {% endblock %}

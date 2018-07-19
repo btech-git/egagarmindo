@@ -74,11 +74,16 @@ class EstimationHeader extends CodeNumberEntity
      * @Assert\Valid() @Assert\Count(min=1)
      */
     private $estimationDetails;
+    /**
+     * @ORM\OneToMany(targetEntity="EstimationImage", mappedBy="estimationHeader")
+     */
+    private $estimationImages;
     
     public function __construct()
     {
-        $this->estimationDetails = new ArrayCollection();
         $this->quotations = new ArrayCollection();
+        $this->estimationDetails = new ArrayCollection();
+        $this->estimationImages = new ArrayCollection();
     }
     
     public function getCodeNumberConstant() { return 'EST'; }
@@ -117,6 +122,9 @@ class EstimationHeader extends CodeNumberEntity
 
     public function getEstimationDetails() { return $this->estimationDetails; }
     public function setEstimationDetails(Collection $estimationDetails) { $this->estimationDetails = $estimationDetails; }
+    
+    public function getEstimationImages() { return $this->estimationImages; }
+    public function setEstimationImages(Collection $estimationImages) { $this->estimationImages = $estimationImages; }
     
     public function sync()
     {
