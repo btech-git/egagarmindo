@@ -23,6 +23,16 @@ services:
         class: AppBundle\Service\Transaction\EstimationHeaderForm
         arguments: ["@app.transaction.estimation_header_repository"]
 
+    app.transaction.estimation_image_repository:
+        class: AppBundle\Repository\Transaction\EstimationImageRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Transaction\EstimationImage
+
+    app.transaction.estimation_header_image:
+        class: AppBundle\Service\Transaction\EstimationHeaderImage
+        arguments: ["@app.transaction.estimation_image_repository"]
+
     app.transaction.quotation_repository:
         class: AppBundle\Repository\Transaction\QuotationRepository
         factory: ["@doctrine.orm.entity_manager", getRepository]
