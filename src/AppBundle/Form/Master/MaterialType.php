@@ -12,11 +12,8 @@ class MaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code')
             ->add('name')
-            ->add('weightedPurchasePrice')
             ->add('sellingPrice')
-            ->add('isActive')
             ->add('materialCategory')
             ->add('unit')
         ;

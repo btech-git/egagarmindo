@@ -67,7 +67,7 @@ class PurchaseOrderHeader extends CodeNumberEntity
     /**
      * @ORM\Column(type="decimal", precision=18, scale=2)
      */
-    private $discount;
+    private $discount = '0.00';
     /**
      * @ORM\Column(type="decimal", precision=18, scale=2)
      */

@@ -1,6 +1,5 @@
 {
     "totalQuantity": {{ purchaseOrderHeader.totalQuantity|default|number_format(0)|json_encode|raw }},
-    "discountNominal": {{ purchaseOrderHeader.discountNominal|default|number_format(2)|json_encode|raw }},
     "taxNominal": {{ purchaseOrderHeader.taxNominal|default|number_format(2)|json_encode|raw }},
     "subTotal": {{ purchaseOrderHeader.subTotal|default|number_format(2)|json_encode|raw }},
     "grandTotal": {{ purchaseOrderHeader.grandTotal|default|number_format(2)|json_encode|raw }},

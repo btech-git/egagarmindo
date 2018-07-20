@@ -5,9 +5,7 @@
 <table data-role="table" class="table table-bordered table-striped table-condensed table-hover">
     <thead>
         <tr data-action="sort" class="alert alert-info">
-            <th data-group="material" data-field="code">Code</th>
             <th data-group="material" data-field="name">Name</th>
-            <th data-group="material" data-field="weightedPurchasePrice">Weighted Purchase Price</th>
             <th data-group="material" data-field="sellingPrice">Selling Price</th>
             <th data-group="material" data-field="isActive">Is Active</th>
             <th></th>
@@ -16,9 +14,7 @@
     <tbody>
         {% for material in grid.data %}
             <tr data-field-id="{{ material.id }}">
-                <td class="text-left">{{ material.code|default }}</td>
                 <td class="text-left">{{ material.name|default }}</td>
-                <td class="text-right">{{ material.weightedPurchasePrice|default|number_format(2) }}</td>
                 <td class="text-right">{{ material.sellingPrice|default|number_format(2) }}</td>
                 <td class="text-left">{{ material.isActive|default ? 'Yes' : 'No' }}</td>
                 <td class="text-left">

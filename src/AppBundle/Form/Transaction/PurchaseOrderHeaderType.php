@@ -25,7 +25,7 @@ class PurchaseOrderHeaderType extends AbstractType
             ->add('paymentTerm')
             ->add('deliveryPlace')
             ->add('deliveryTime')
-            ->add('discount')
+//            ->add('discount')
             ->add('isTax')
             ->add('supplier', EntityTextType::class, array('class' => Supplier::class))
             ->add('purchaseOrderDetails', CollectionType::class, array(

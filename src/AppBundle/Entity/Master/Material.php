@@ -21,7 +21,7 @@ class Material
     private $id;
     /**
      * @ORM\Column(type="string", length=20, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $code;
     /**
